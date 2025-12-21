@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Register Face - Face Attendance</title>
+  <style>
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+    @keyframes slideIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    :root{
+      --bg:#0f172a;
+      --white:#e5e7eb;
+      --muted:#9ca3af;
+      --glass-bg:rgba(17,24,39,.3);
+      --glass-border:rgba(148,163,184,.3);
+    }
+    *{margin:0;padding:0;box-sizing:border-box}
+    html,body{height:100%;width:100%}
+    body{
+      background:var(--bg);
+      color:var(--white);
+      font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
+      min-height:100vh;padding:20px;
+      -webkit-font-smoothing:antialiased;
+    }
+    /* header navigation */
+    .nav-top{
+      position:fixed;top:0;left:0;right:0;z-index:100;
+      background:linear-gradient(to bottom, rgba(15,23,42,.8), transparent);
+      backdrop-filter:blur(8px);
+      padding:20px 32px;
+      display:flex;justify-content:space-between;align-items:center;
+      border-bottom:1px solid rgba(148,163,184,.1);
+    }
+    .nav-brand{
+      font-weight:800;letter-spacing:.05em;font-size:0.95rem;
+      background:linear-gradient(135deg, #e5e7eb 0%, #9ca3af 100%);
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+      text-transform:uppercase;
+    }
+    .nav-links{display:flex;gap:12px}
+    .nav-link{
+      padding:8px 16px;border-radius:8px;
+      background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.3);
+      color:var(--white);text-decoration:none;font-size:0.85rem;
+      transition:all .2s;font-weight:600;
+    }
+    .nav-link:hover{background:rgba(59,130,246,.2);border-color:rgba(59,130,246,.7)}
+    /* main container */
+    .enroll-wrapper{
+      max-width:1400px;margin:100px auto 40px;
+      display:grid;grid-template-columns:4fr 1fr;gap:28px;
+    }
+    .enroll-card{
+      background:var(--glass-bg);
+      backdrop-filter:blur(12px);
+      border:1.5px solid var(--glass-border);
+      border-radius:20px;padding:32px;
+      box-shadow:0 25px 50px rgba(2,6,23,.5), 0 0 40px rgba(59,130,246,.1);
+      animation:float 3s ease-in-out infinite;
+    }
+    .card-title{
+      font-size:1.4rem;font-weight:800;letter-spacing:.02em;
+      margin-bottom:12px;
+      background:linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    }
+    .card-desc{
+      color:var(--muted);margin-bottom:24px;font-size:0.9rem;
+    }
+    /* form section */
+    .form-group{margin-bottom:20px}
+    .form-label{
+      display:block;color:var(--white);font-size:0.85rem;
+      font-weight:700;margin-bottom:8px;letter-spacing:.01em;text-transform:uppercase;
+    }
+    .form-input{
+      width:100%;padding:12px 16px;
+      background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.3);
+      border-radius:8px;color:var(--white);font-size:0.9rem;
+      transition:all .2s;
+    }
+    .form-input:focus{
+      outline:none;background:rgba(59,130,246,.12);
+      border-color:rgba(59,130,246,.7);box-shadow:0 0 12px rgba(59,130,246,.2);
+    }
+    .form-input::placeholder{color:var(--muted)}
+    /* video preview */
+    .preview-container{
+      position:relative;border-radius:12px;overflow:hidden;
+      background:rgba(17,24,39,.4);border:2px solid rgba(59,130,246,.2);
+      margin-bottom:20px;
+    }
+    video,canvas{width:100%;height:auto;display:block}
+    /* buttons */
+    .btn-capture{
+      width:100%;padding:14px 20px;
+      background:linear-gradient(135deg, #34197a 0%, #22c55e 100%);
+      color:#fff;border:none;border-radius:10px;
+      font-size:0.95rem;font-weight:700;letter-spacing:.02em;
+      cursor:pointer;transition:all .3s;text-transform:uppercase;
+      box-shadow:0 8px 24px rgba(34,197,94,.2);
+      margin-bottom:12px;
+    }
+    .btn-capture:hover{
+      transform:translateY(-2px);box-shadow:0 12px 32px rgba(34,197,94,.3);
+      background:linear-gradient(135deg, #1e3a2f 0%, #16a34a 100%);
+    }
+    .btn-capture:active{transform:translateY(0)}
+    /* status message */
+    .status-box{
+      min-height:50px;padding:14px;border-radius:10px;
+      text-align:center;font-size:0.9rem;
+      background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.3);
+      color:var(--white);display:none;animation:slideIn .3s ease-out;
+    }
+    .status-box.show{display:block}
+    .status-box.success{background:rgba(34,197,94,.1);border-color:rgba(34,197,94,.5)}
+    .status-box.error{background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.5)}
+    /* list section */
+    .list-section{
+      background:var(--glass-bg);
+      backdrop-filter:blur(12px);
+      border:1.5px solid var(--glass-border);
+      border-radius:20px;padding:32px;
+      grid-column:auto;
+      box-shadow:0 25px 50px rgba(2,6,23,.5), 0 0 40px rgba(59,130,246,.1);
+      animation:float 3s ease-in-out infinite;
+    }
+    .list-title{
+      font-size:1.2rem;font-weight:800;margin-bottom:20px;
+      background:linear-gradient(135deg, #a855f7 0%, #d946ef 100%);
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    }
+    .face-item{
+      display:flex;justify-content:space-between;align-items:center;
+      padding:10px 12px;background:rgba(59,130,246,.08);
+      border:1px solid rgba(59,130,246,.2);border-radius:8px;
+      margin-bottom:6px;transition:all .2s;gap:8px;
+    }
+    .face-item:hover{background:rgba(59,130,246,.12);border-color:rgba(59,130,246,.4)}
+    .face-name{font-weight:700;color:var(--white)}
+    .btn-delete{
+      padding:6px 12px;background:rgba(239,68,68,.2);
+      border:1px solid rgba(239,68,68,.4);color:#fca5a5;
+      border-radius:6px;font-size:0.8rem;cursor:pointer;
+      transition:all .2s;font-weight:600;
+    }
+    .btn-delete:hover{background:rgba(239,68,68,.3);border-color:rgba(239,68,68,.7)}
+    .empty-list{color:var(--muted);text-align:center;padding:40px 20px;font-size:0.9rem}
+    /* mobile */
+    @media (max-width:768px){
+      .nav-top{padding:16px 20px;gap:12px}
+      .nav-brand{font-size:0.85rem}
+      .nav-links{gap:8px}
+      .nav-link{padding:6px 12px;font-size:0.75rem}
+      .enroll-wrapper{grid-template-columns:1fr;margin-top:80px;gap:20px}
+      .enroll-card,.list-section{padding:24px}
+      .card-title{font-size:1.2rem}
+      .btn-capture{padding:12px 16px;font-size:0.9rem}
+      .face-item{padding:8px 10px;margin-bottom:4px}
+    }
+  </style>
+</head>
+<body>
+  <!-- Top Navigation -->
+  <div class="nav-top">
+    <div class="nav-brand">➕ Register Face</div>
+    <div class="nav-links">
+      <a href="{{ url_for('index') }}" class="nav-link">🏠 Home</a>
+      <a href="{{ url_for('scan') }}" class="nav-link">📷 Scan</a>
+      <a href="{{ url_for('logs') }}" class="nav-link">📝 History</a>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="enroll-wrapper">
+    <!-- Register Card -->
+    <div class="enroll-card">
+      <h2 class="card-title">Add New Face</h2>
+      <p class="card-desc">Capture your face and create a new enrollment record.</p>
+
+      <!-- Name Input -->
+      <div class="form-group">
+        <label class="form-label">Name / Student ID</label>
+        <input id="nameInput" type="text" class="form-input"
+               placeholder="e.g., 65012345 or John">
+      </div>
+
+      <!-- Video Preview -->
+      <div class="preview-container">
+        <video id="video" autoplay playsinline></video>
+      </div>
+
+      <!-- Capture Button -->
+      <button id="captureBtn" class="btn-capture">
+        📸 Capture & Register
+      </button>
+
+      <!-- Status Message -->
+      <div id="status" class="status-box"></div>
+    </div>
+
+    <!-- Canvas (hidden) -->
+    <canvas id="canvas" style="display:none"></canvas>
+
+    <!-- Registered Faces List -->
+    <div class="list-section">
+      <h3 class="list-title">Registered Faces</h3>
+      <div id="faceList" class="face-list">
+        <div class="empty-list">📭 Loading registered faces...</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const video = document.getElementById("video");
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+    const captureBtn = document.getElementById("captureBtn");
+    const statusEl = document.getElementById("status");
+    const nameInput = document.getElementById("nameInput");
+
+    // Open camera
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(stream => {
+        video.srcObject = stream;
+      })
+      .catch(err => {
+        showStatus("❌ Cannot open camera: " + err.message, "error");
+      });
+
+    function showStatus(msg, type = "info"){
+      statusEl.textContent = msg;
+      statusEl.classList.remove("success", "error");
+      if(type) statusEl.classList.add(type);
+      statusEl.classList.add("show");
+    }
+
+    captureBtn.addEventListener("click", async () => {
+      const name = nameInput.value.trim();
+      if(!name){
+        showStatus("⚠️ Please enter a name", "error");
+        return;
+      }
+
+      captureBtn.disabled = true;
+      captureBtn.textContent = "⏳ Capturing...";
+
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      const dataUrl = canvas.toDataURL("image/png");
+
+      try{
+        const res = await fetch("/api/enroll", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, image: dataUrl })
+        });
+
+        const json = await res.json();
+
+        if(json.ok){
+          showStatus(`✅ Registered: ${json.message}`, "success");
+          nameInput.value = "";
+          loadFaceList();
+        } else {
+          showStatus(`❌ Error: ${json.message}`, "error");
+        }
+      }catch(err){
+        showStatus("❌ Network error", "error");
+      }
+
+      captureBtn.disabled = false;
+      captureBtn.textContent = "📸 Capture & Register";
+    });
+
+    async function loadFaceList(){
+      const listEl = document.getElementById("faceList");
+      try{
+        const res = await fetch("/api/list_faces");
+        const data = await res.json();
+
+        if(!data.ok || !data.names || data.names.length === 0){
+          listEl.innerHTML = '<div class="empty-list">📭 No registered faces yet</div>';
+          return;
+        }
+
+        listEl.innerHTML = data.names.map(name => `
+          <div class="face-item">
+            <span class="face-name">👤 ${name}</span>
+            <button class="btn-delete" onclick="deleteFace('${name}')">Delete</button>
+          </div>
+        `).join("");
+      }catch(err){
+        listEl.innerHTML = '<div class="empty-list">⚠️ Error loading faces</div>';
+      }
+    }
+
+    async function deleteFace(name){
+      if(!confirm(`Delete "${name}" from the system?`)) return;
+
+      showStatus(`Deleting "${name}"...`, "info");
+      try{
+        const res = await fetch("/api/delete_face", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name })
+        });
+
+        const data = await res.json();
+        if(data.ok){
+          showStatus(`✅ Deleted: ${name}`, "success");
+          loadFaceList();
+        } else {
+          showStatus(`❌ Error: ${data.message}`, "error");
+        }
+      }catch(err){
+        showStatus("❌ Error occurred", "error");
+      }
+    }
+
+    window.addEventListener("load", loadFaceList);
+  </script>
+</body>
+</html>
