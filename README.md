@@ -10,7 +10,7 @@
 This project automates the attendance tracking process using real-time face recognition. Built with **Python** and **Flask**, it utilizes **MTCNN** for face detection and **FaceNet (InceptionResnetV1)** for generating high-quality face embeddings, ensuring accurate identification and automated logging.
 ---
 
-## ✨ ฟีเจอร์หลัก (Key Features)
+## ✨(Key Features)
 ⚡ Real-time Detection: Instant face detection and recognition from a live webcam feed.
 
 🧠 Deep Learning Core: Powered by FaceNet (InceptionResnetV1) for state-of-the-art accuracy in feature extraction.
