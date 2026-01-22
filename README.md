@@ -35,6 +35,18 @@ The system operates through a specialized pipeline to ensure accurate recognitio
 * **Automated Logging:** Saves "Time-In", "Name", and "Date" automatically without manual input.
 * **Dashboard UI:** A user-friendly web interface to view the camera feed and attendance status.
 
+## 📸 Screenshots
+
+<p align="center">
+  <img src="image/Homeface.png" alt="Home Page" width="90%">
+  <img src="image/Facescan.png" alt="Scanning Interface" width="45%">
+  <img src="image/RegisFACE.png" alt="Register Interface" width="45%">
+  <img src="image/HistoryFace.png" alt="History Interface" width="45%">
+</p>
+
+
+
+
 ## 🚀 Installation & Usage
 
 1.  **Clone the Repository**
