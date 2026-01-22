@@ -1,64 +1,58 @@
-# 📸 Face Recognition Attendance System
+## 📸 Face Recognition Attendance System
 
-![Python](https://img.shields.io/badge/Python-3.10-blue?style=for-the-badge&logo=python&logoColor=white)
-![Flask](https://img.shields.io/badge/Framework-Flask-black?style=for-the-badge&logo=flask)
-![OpenCV](https://img.shields.io/badge/Computer_Vision-OpenCV-green?style=for-the-badge&logo=opencv)
-![Pandas](https://img.shields.io/badge/Data-Pandas-150458?style=for-the-badge&logo=pandas)
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue?style=for-the-badge&logo=python&logoColor=white)
+![Flask](https://img.shields.io/badge/Framework-Flask-black?style=for-the-badge&logo=flask&logoColor=white)
+![OpenCV](https://img.shields.io/badge/Vision-OpenCV-5C3EE8?style=for-the-badge&logo=opencv&logoColor=white)
+![Pandas](https://img.shields.io/badge/Data-Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white)
+![PyTorch](https://img.shields.io/badge/Model-MTCNN%20%26%20FaceNet-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white)
 
 > **A smart, contactless attendance management system leveraging Deep Learning technology for real-time identification.**
 
 This project automates the attendance tracking process using a webcam. Built with **Python** and **Flask**, it integrates state-of-the-art Computer Vision models (**MTCNN** & **FaceNet**) to detect faces, verify identities, and automatically log entry times into an Excel/CSV file.
 
----
-
-## ⚙️ System Architecture 
+## ⚙️ System Architecture
 
 The system operates through a specialized pipeline to ensure accurate recognition:
 
+1.  **Image Capture:** The webcam captures live video frames via the Flask client.
+2.  **Face Detection (MTCNN):** Locates faces within the frame with high accuracy.
+3.  **Feature Extraction (FaceNet):** Converts the detected face into a 128-dimensional embedding vector.
+4.  **Matching:** Compares the live embedding against the database using Euclidean distance to verify identity.
+5.  **Logging:** Successfully identified users are logged with a timestamp into `attendance.csv`.
 
-🛠️ Tech Stack & Tools 
-1. Programming Languages
-   
-Python (3.10+): The core logic, backend processing, and AI implementation.
+## 🛠️ Tech Stack & Tools
 
-HTML5 / CSS3: Frontend interface for the camera feed and dashboard.
+| Category | Technologies |
+| :--- | :--- |
+| **Languages** | Python 3.10+, JavaScript, HTML5, CSS3 |
+| **AI & Vision** | **OpenCV** (Image processing), **MTCNN** (Detection), **FaceNet/InceptionResnetV1** (Recognition), **NumPy** |
+| **Web & Data** | **Flask** (Backend Framework), **Pandas** (Data Management & Export) |
 
-JavaScript: Client-side handling for real-time interactions.
+## ✨ Key Features
 
-2. AI & Computer Vision Modules
-OpenCV (cv2): Handles image processing, video stream capture, and frame manipulation.
+* **Real-time Recognition:** Instantly identifies registered users via live video feed.
+* **Anti-Spoofing (Basic):** Algorithm implemented to distinguish between real faces and static photos.
+* **Automated Logging:** Saves "Time-In", "Name", and "Date" automatically without manual input.
+* **Dashboard UI:** A user-friendly web interface to view the camera feed and attendance status.
 
-MTCNN: A deep learning model used for accurate Face Detection (locating faces in the frame).
+## 🚀 Installation & Usage
 
-FaceNet (InceptionResnetV1): Used for Face Recognition (generating 128-dimensional embeddings to identify unique facial features).
+1.  **Clone the Repository**
+    ```bash
+    git clone https://github.com/WuttikornFunk/Face-Recognition-Attendance.git
+    cd Face-Recognition-Attendance
+    ```
 
-NumPy: Performs high-speed matrix calculations for image data.
-
-3. Web Framework & Data Management
-Flask: A lightweight web framework serving the application and routing requests.
-
-Pandas: Manages attendance logs and exports data to .csv or .xlsx formats.
-
-✨ Key Features
-Real-time Recognition: Instantly identifies registered users via live video feed.
-
-Anti-Spoofing (Basic): Algorithm to distinguish between real faces and static photos.
-
-Automated Logging: Saves "Time-In", "Name", and "Date" automatically without manual input.
-
-Dashboard UI: A user-friendly web interface to view the camera and status.
-
-## 🚀(Installation)
-
-1. **Clone project**
-   ```bash
-   git clone [https://github.com/Wuttikorn777/Face-Recognition-Attendance.git](https://github.com/Wuttikorn777/Face-Recognition-Attendance.git)
-
-2. **install Library **
-   ```bash
+2.  **Install Dependencies**
+    ```bash
     pip install -r requirements.txt
+    ```
 
-3. **RUN**
+3.  **Run the Application**
     ```bash
     python app.py
-    ระบบจะเปิดเว็บที่ URL: http://127.0.0.1:5000
+    ```
+    * The application will start at: `http://127.0.0.1:5000`
+    * Open your web browser and navigate to the URL to start the system.
+
+---
