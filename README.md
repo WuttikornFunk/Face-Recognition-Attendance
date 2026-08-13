@@ -4,7 +4,7 @@
 ![Flask](https://img.shields.io/badge/Framework-Flask-black?style=for-the-badge&logo=flask&logoColor=white)
 ![OpenCV](https://img.shields.io/badge/Vision-OpenCV-5C3EE8?style=for-the-badge&logo=opencv&logoColor=white)
 ![Pandas](https://img.shields.io/badge/Data-Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white)
-![PyTorch](https://img.shields.io/badge/Model-MTCNN%20%26%20FaceNet-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white)
+
 
 > **A smart, contactless attendance management system leveraging Deep Learning technology for real-time identification.**
 
