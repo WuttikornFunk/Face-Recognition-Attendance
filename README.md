@@ -8,24 +8,24 @@
 
 > **A smart, contactless attendance management system leveraging Deep Learning technology for real-time identification.**
 
-This project automates the attendance tracking process using a webcam. Built with **Python** and **Flask**, it integrates state-of-the-art Computer Vision models (**MTCNN** & **FaceNet**) to detect faces, verify identities, and automatically log entry times into an Excel/CSV file.
+This project automates the attendance tracking process using a webcam. Built with **Python** and **Flask**, it integrates state-of-the-art Computer Vision models (**Haar Cascade** & **FaceNet**) to detect faces, verify identities, and automatically log entry times into an Excel/CSV file.
 
 ## ⚙️ System Architecture
 
 The system operates through a specialized pipeline to ensure accurate recognition:
 
 1.  **Image Capture:** The webcam captures live video frames via the Flask client.
-2.  **Face Detection (MTCNN):** Locates faces within the frame with high accuracy.
-3.  **Feature Extraction (FaceNet):** Converts the detected face into a 128-dimensional embedding vector.
+2.  **Face Detection (Haar Cascade):** Locates faces within the frame using OpenCV's CascadeClassifier.
+3.  **Feature Extraction (FaceNet):** Converts the detected face into a 512-dimensional embedding vector using a pretrained InceptionResnetV1 (VGGFace2).
 4.  **Matching:** Compares the live embedding against the database using Euclidean distance to verify identity.
-5.  **Logging:** Successfully identified users are logged with a timestamp into `attendance.csv`.
+5.  **Logging:** Successfully identified users are logged with a timestamp into attendance.csv, with a cooldown window to prevent duplicate check-ins.
 
 ## 🛠️ Tech Stack & Tools
 
 | Category | Technologies |
 | :--- | :--- |
 | **Languages** | Python 3.10+, JavaScript, HTML5, CSS3 |
-| **AI & Vision** | **OpenCV** (Image processing), **MTCNN** (Detection), **FaceNet/InceptionResnetV1** (Recognition), **NumPy** |
+| **AI & Vision** | **OpenCV** (Image processing), **Haar Cascade** (Detection), **FaceNet/InceptionResnetV1** (Recognition), **NumPy** |
 | **Web & Data** | **Flask** (Backend Framework), **Pandas** (Data Management & Export) |
 
 ## ✨ Key Features
